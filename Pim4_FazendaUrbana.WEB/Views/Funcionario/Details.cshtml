@@ -1,0 +1,91 @@
+﻿@model Pim4_FazendaUrbana.DATA.Models.Funcionario
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Verificando dados de funcionário </h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Nome)</h4>
+    <hr />
+    <div>
+        <a asp-action="Edit" class="btn btn-success" asp-route-id="@Model?.IdFuncionario">Alterar</a> 
+        <a asp-action="Index" class="btn btn-primary">Voltar</a>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-header">Informações de cadastro</div>
+        <div class="card-body row">
+            <div class="col-md">
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Usuario) </label>
+                    <input disabled class="form-control" value="@Html.DisplayFor(model => model.Usuario)" />
+                </div>
+            </div>
+
+            <div class="col-md">
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Senha) </label>
+                    <input disabled class="form-control" value="@Html.DisplayFor(model => model.Senha)" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <br />
+    <div class="card">
+        <div class="card-header">Informações pessoais</div>
+        <div class="card-body row">
+            <div class="col-md">
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Nome)</label>
+                    <input disabled class="form-control" value="@Html.DisplayFor(model => model.Nome)" />
+                </div>
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Cpf)</label>
+                    <input disabled class="form-control" value="@Html.DisplayFor(model => model.Cpf)" />
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Email)</label>
+                    <input disabled class="form-control" value="@Html.DisplayFor(model => model.Email)" />
+                </div>
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.DtNascimento)</label>
+                    <input disabled class="form-control" value="@Html.DisplayFor(model => model.DtNascimento)" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="card">
+        <div class="card-header">Informações sistema</div>
+        <div class="card-body ">
+            <div class="form-group">
+                <label>@Html.DisplayNameFor(model => model.Cargo)</label>
+                <input disabled class="form-control" value="@Html.DisplayFor(model => model.Cargo)" />
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.DtInicio)</label>
+                        <input disabled class="form-control" value="@Html.DisplayFor(model => model.DtInicio)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.Salario)</label>
+                        <input disabled class="form-control" value="@Html.DisplayFor(model => model.Salario)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+</div>
+

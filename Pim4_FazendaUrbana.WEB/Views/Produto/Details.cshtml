@@ -1,0 +1,39 @@
+﻿@model Pim4_FazendaUrbana.DATA.Models.Produto
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Verificando detalhes de produto</h1>
+
+<div class="col-md-4">
+    <h4>@Html.DisplayFor(model => model.Nome)</h4>
+    <hr />
+    <div>
+        <a asp-action="Edit" class="btn btn-success" asp-route-id="@Model?.IdProduto">Alterar</a>
+        <a asp-action="Index" class="btn btn-primary">Voltar</a>
+    </div>
+    <br />
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(model => model.Nome)</label>
+        <input disabled class="form-control" value="@Html.DisplayFor(model => model.Nome)" />
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(model => model.Quantidade)</label>
+        <input disabled class="form-control" value="@Html.DisplayFor(model => model.Quantidade)" />
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(model => model.ValorUn)</label>
+        <input disabled class="form-control" value="@Html.DisplayFor(model => model.ValorUn)" />
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(model => model.Categoria)</label>
+        <input disabled class="form-control" value="@Html.DisplayFor(model => model.Categoria)" />
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(model => model.CodigoBarra)</label>
+        <input disabled class="form-control" value="@Html.DisplayFor(model => model.CodigoBarra)" />
+    </div>
+
+</div>
+

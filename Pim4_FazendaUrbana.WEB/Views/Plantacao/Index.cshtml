@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Pim4_FazendaUrbana.DATA.Models.Plantacao>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Plantação</h1>
+<br />
+<p>
+    <a class="btn btn-primary" asp-action="Create">Adicionar</a>
+</p>
+<table id="myTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeHortalica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataPlantio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataColheita)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qtd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeHortalica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataPlantio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataColheita)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qtd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.IdPlantio">Alterar</a> 
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.IdPlantio">Detalhes</a> 
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@item.IdPlantio">
+                        Excluir
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="DeleteModal-@item.IdPlantio" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="DeleteModalLabel">Excluir plantio</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Deseja realmente excluir a plantação de @item.NomeHortalica ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.IdPlantio">Sim</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        var table = new DataTable('#myTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/pt-BR.json',
+            },
+        });
+    </script>
+}

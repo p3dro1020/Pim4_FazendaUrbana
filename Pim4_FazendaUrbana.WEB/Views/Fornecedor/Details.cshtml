@@ -1,0 +1,53 @@
+﻿@model Pim4_FazendaUrbana.DATA.Models.Fornecedor
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>
+    Verificando dados de fornecedor
+</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.NomeFantasia)</h4>
+    <hr />
+    <div>
+        <a asp-action="Edit" class="btn btn-success" asp-route-id="@Model?.IdFornecedor">Alterar</a>
+        <a asp-action="Index" class="btn btn-primary">Voltar</a>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-header">Informações</div>
+        <div class="card-body">
+            <div class="form-group">
+                <label>@Html.DisplayNameFor(model => model.RazaoSocial) </label>
+                <input disabled class="form-control" value="@Html.DisplayFor(model => model.RazaoSocial)" />
+            </div>
+            <div class="form-group">
+                <label>@Html.DisplayNameFor(model => model.NomeFantasia) </label>
+                <input disabled class="form-control" value="@Html.DisplayFor(model => model.NomeFantasia)" />
+            </div>
+            <div class="form-group">
+                <label>@Html.DisplayNameFor(model => model.Cnpj) </label>
+                <input disabled class="form-control" value="@Html.DisplayFor(model => model.Cnpj)" />
+            </div>
+            <div class="form-group">
+                <label>@Html.DisplayNameFor(model => model.DataCadastro) </label>
+                <input disabled class="form-control" value="@Html.DisplayFor(model => model.DataCadastro)" />
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-header">Contato</div>
+        <div class="card-body">
+            <div class="form-group">
+                <label>@Html.DisplayNameFor(model => model.Email) </label>
+                <input disabled class="form-control" value="@Html.DisplayFor(model => model.Email)" />
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
