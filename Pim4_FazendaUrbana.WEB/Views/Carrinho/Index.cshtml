@@ -11,19 +11,19 @@
     <div class="menu-wrapper">
         <div class="menu-container">
             <div class="menu-item">
-                <img src="repolhoroxo.png" alt="name produto" class="menu-image">
+                <img src="~/lib/images/repolhoroxo.png" alt="name produto" class="menu-image">
                 <h3 class="menu-name">Repolho roxo</h3>
                 <p class="menu-price">R$ 25,00</p>
                 <button class="menu-button">Adicionar ao Carrinho</button>
             </div>
             <div class="menu-item">
-                <img src="tomate.png" alt="name produto" class="menu-image">
+                <img src="~/lib/images/tomate.png" alt="name produto" class="menu-image">
                 <h3 class="menu-name">Tomate</h3>
                 <p class="menu-price">R$ 15,00</p>
                 <button class="menu-button">Adicionar ao Carrinho</button>
             </div>
             <div class="menu-item">
-                <img src="alface-lisa.png" alt="name produto" class="menu-image">
+                <img src="~/lib/images/alface-lisa.png" alt="name produto" class="menu-image">
                 <h3 class="menu-name">Alface</h3>
                 <p class="menu-price">R$ 35,00</p>
                 <button class="menu-button">Adicionar ao Carrinho</button>
@@ -32,3 +32,28 @@
     </div>
 </body>
 </html>
+
+<script>
+    // Inicializar a lista de compras
+    let listaDeCompras = [];
+
+    // Função para capturar os dados do item e adicioná-los à lista
+    document.addEventListener('DOMContentLoaded', function () {
+        const botoes = document.querySelectorAll('.menu-button');
+
+        botoes.forEach((botao) => {
+            botao.addEventListener('click', function () {
+                const item = this.closest('.menu-item'); // Pega o elemento pai
+                const nome = item.querySelector('.menu-name').textContent;
+                const preco = item.querySelector('.menu-price').textContent;
+
+                // Adicionar o item à lista de compras
+                listaDeCompras.push({ nome, preco });
+                console.log('Item adicionado ao carrinho:', { nome, preco });
+
+                // Exemplo: Exibir a lista no console
+                console.log('Lista de compras atual:', listaDeCompras);
+            });
+        });
+    });
+</script>

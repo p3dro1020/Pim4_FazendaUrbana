@@ -2,7 +2,42 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+    <link href="~/css/styleTabelaInicial.css" rel="stylesheet">
+</head>
+<div class="table-title">
+        <h2>Últimas Vendas</h2>
+    </div>
+<div class="table-container">
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>ID da Venda</th>
+                    <th>Valor Total</th>
+                    <th>Quantidade de Itens</th>
+                    <th>Data e Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td>R$ 150,00</td>
+                    <td>3</td>
+                    <td>2024-11-12 14:30</td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>R$ 220,00</td>
+                    <td>5</td>
+                    <td>2024-11-12 16:45</td>
+                </tr>
+                <tr>
+                    <td>003</td>
+                    <td>R$ 300,00</td>
+                    <td>4</td>
+                    <td>2024-11-12 18:00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>

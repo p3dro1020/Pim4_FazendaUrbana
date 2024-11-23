@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pim4_FazendaUrbana.DATA.Models;
 using Pim4_FazendaUrbana.DATA.Services;
+using Pim4_FazendaUrbana.WEB.Filters;
 
 namespace Pim4_FazendaUrbana.WEB.Controllers
 {
+    [PaginaSomenteAdmin]
     public class ProdutoController : Controller
     {
         private ProdutoService _produtoService = new ProdutoService();

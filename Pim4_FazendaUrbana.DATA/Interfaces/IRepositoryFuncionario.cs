@@ -9,5 +9,6 @@ namespace Pim4_FazendaUrbana.DATA.Interfaces
 {
     public interface IRepositoryFuncionario : IRepositoryModel<Funcionario>
     {
+        Funcionario BuscarPorLogin(string usuario);
     }
 }

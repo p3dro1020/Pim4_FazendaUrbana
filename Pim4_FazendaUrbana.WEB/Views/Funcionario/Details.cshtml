@@ -64,11 +64,20 @@
     <div class="card">
         <div class="card-header">Informações sistema</div>
         <div class="card-body ">
-            <div class="form-group">
-                <label>@Html.DisplayNameFor(model => model.Cargo)</label>
-                <input disabled class="form-control" value="@Html.DisplayFor(model => model.Cargo)" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.Cargo)</label>
+                        <input disabled class="form-control" value="@Html.DisplayFor(model => model.Cargo)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.Perfil)</label>
+                        <input disabled class="form-control" value="@Html.DisplayFor(model => model.Perfil)" />
+                    </div>
+                </div>
             </div>
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -82,6 +91,7 @@
                         <input disabled class="form-control" value="@Html.DisplayFor(model => model.Salario)" />
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>

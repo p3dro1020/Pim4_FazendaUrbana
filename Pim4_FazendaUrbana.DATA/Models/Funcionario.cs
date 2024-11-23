@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Pim4_FazendaUrbana.WEB.Enums;
 
 namespace Pim4_FazendaUrbana.DATA.Models;
 
@@ -53,6 +54,14 @@ public partial class Funcionario
     [Column("salario", TypeName = "decimal(10, 2)")]
     public decimal Salario { get; set; }
 
+    public PerfilEnum Perfil { get; set; }
+
     [InverseProperty("IdFuncionarioNavigation")]
     public virtual ICollection<TelefoneFuncionario> TelefoneFuncionario { get; set; } = new List<TelefoneFuncionario>();
+
+    public bool SenhaValida(string senha)
+    {
+        return Senha == senha;
+    }
+
 }

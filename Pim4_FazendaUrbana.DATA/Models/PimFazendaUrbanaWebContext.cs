@@ -51,6 +51,7 @@ public partial class PimFazendaUrbanaWebContext : DbContext
             entity.Property(e => e.Nome).IsFixedLength();
             entity.Property(e => e.Senha).IsFixedLength();
             entity.Property(e => e.Usuario).IsFixedLength();
+            entity.Property(e => e.Perfil).IsFixedLength();
         });
 
         modelBuilder.Entity<Plantacao>(entity =>

@@ -10,9 +10,14 @@ namespace Pim4_FazendaUrbana.DATA.Repositories
 {
     public class RepositoryFuncionario : RepositoryBase<Funcionario>, IRepositoryFuncionario
     {
-        public RepositoryFuncionario(bool SaveChanges = true) : base(SaveChanges)
+        public RepositoryFuncionario() : base()
         {
+        }
 
+
+        public Funcionario BuscarPorLogin(string usuario)
+        {
+            return _Context.Funcionario.FirstOrDefault(x => x.Usuario.ToUpper() == usuario.ToUpper());
         }
     }
 }

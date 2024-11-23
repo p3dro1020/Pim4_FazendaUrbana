@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Pim4_FazendaUrbana.WEB.Filters;
 using Pim4_FazendaUrbana.WEB.Models;
 using System.Diagnostics;
 
 namespace Pim4_FazendaUrbana.WEB.Controllers
 {
+    [PaginaUsuarioLogado]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
