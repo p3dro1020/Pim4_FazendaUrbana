@@ -8,7 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
 builder.Services.AddScoped<IRepositoryFuncionario, RepositoryFuncionario>();
+builder.Services.AddScoped<IRepositoryPedido, RepositoryPedido>();
+builder.Services.AddScoped<IRepositoryItemPedido, RepositoryItemPedido>();
+
 builder.Services.AddScoped<ISessao, Sessao>();
 builder.Services.AddSession(o =>
 {

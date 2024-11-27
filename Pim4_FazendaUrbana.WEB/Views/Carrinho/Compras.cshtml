@@ -1,11 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<Pim4_FazendaUrbana.DATA.Models.CartItem>
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/css/styleCarrinho.css" rel="stylesheet" media="all">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
 </head>
 <body>
     <main>
@@ -25,29 +26,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div class="product">
-                                    <img src="~/lib/images/alface-lisa.png" alt="">
-                                    <div class="info">
-                                        <div class="name">Alface</div>
-                                        <div class="category">Hortaliça</div>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.Id">
+                                <td>
+                                    <div class="product">
+                                        <img src="~/lib/images/alface-lisa.png" alt="@item.Nome">
+                                        <div class="info">
+                                            <div class="name">@item.Nome</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>R$ 35</td>
-                            <td>
-                                <div class="qtd">
-                                    <button><i class="bx bx-minus"></i></button>
-                                    <span>2</span>
-                                    <button><i class="bx bx-plus"></i></button>
-                                </div>
-                            </td>
-                            <td>R$ 70</td>
-                            <td>
-                                <button class="remove"><i class="bx bx-x"></i></button>
-                            </td>
-                        </tr>
+                                </td>
+                                <td>R$ @item.Preco</td>
+                                <td>
+                                    <div class="qtd">
+                                        <button class="diminuir" onclick="atualizarQuantidade('@item.Id', -1)"><i class="bx bx-minus"></i></button>
+                                        <span class="quantidade">@item.Quantidade</span>
+                                        <button class="incrementar" onclick="atualizarQuantidade('@item.Id', 1)"><i class="bx bx-plus"></i></button>
+
+                                    </div>
+                                </td>
+                                <td class="total" onclick="removerItem('@item.Id')">R$ @(item.Preco * item.Quantidade)</td>
+                                <td>
+                                    <button class="remove" onclick="removerItem('@item.Id')"><i class="bx bx-x"></i></button>
+
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </section>
@@ -55,17 +60,131 @@
                 <div class="box">
                     <header>Resumo da compra</header>
                     <div class="info">
-                        <div><span>Sub-total</span><span>R$ 35</span></div>
-                        <div><span>Desconto</span><span>R$ 00</span></div>
+                        <div><span>Sub-total</span><span id="subtotal">R$ 00</span></div>
+                        <div><span>Desconto</span><span id="desconto">R$ 00</span></div>
                     </div>
                     <footer>
                         <span>Total</span>
-                        <span>R$ 70</span>
+                        <span id="total-compra">R$ 00</span>
                     </footer>
                 </div>
-                <button>Finalizar compra</button>
+                <button id="finalizar-compra">Finalizar compra</button>
             </aside>
         </div>
     </main>
 </body>
 </html>
+
+<script>
+    function atualizarTotalCompra() {
+        // Seleciona todas as células da coluna "Total" na tabela
+        const totais = document.querySelectorAll('.total');
+        let soma = 0;
+
+        // Soma os valores dos elementos "Total"
+        totais.forEach(totalCell => {
+            const valor = parseFloat(totalCell.textContent.replace("R$", "").trim());
+            if (!isNaN(valor)) {
+                soma += valor;
+            }
+        });
+
+        // Atualiza o valor do subtotal e do total no resumo
+        document.getElementById('subtotal').textContent = `R$ ${soma.toFixed(2)}`;
+        document.getElementById('total-compra').textContent = `R$ ${soma.toFixed(2)}`;
+    }
+
+   function atualizarQuantidade(itemId, delta) {
+    const itemRow = document.querySelector(`tr[data-id="${itemId}"]`);
+
+    if (itemRow) {
+        const quantidadeSpan = itemRow.querySelector(".quantidade");
+        let quantidadeAtual = parseInt(quantidadeSpan.textContent, 10);
+
+        // Calcular a nova quantidade
+        const novaQuantidade = Math.max(0, quantidadeAtual + delta);
+        quantidadeSpan.textContent = novaQuantidade;
+
+        // Atualizar o total correspondente
+        const precoUnitario = parseFloat(itemRow.querySelector("td:nth-child(2)").textContent.replace("R$", "").trim());
+        const totalCell = itemRow.querySelector(".total");
+        totalCell.textContent = `R$ ${(precoUnitario * novaQuantidade).toFixed(2)}`;
+
+        atualizarTotalCompra();
+
+        // Enviar a atualização para o servidor
+        fetch('@Url.Action("AtualizarQuantidade", "Carrinho")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            body: JSON.stringify({
+                productId: parseInt(itemId), // Garantir que o ID seja um número
+                quantity: novaQuantidade    // Enviar a nova quantidade
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    alert('Erro ao atualizar quantidade no servidor.');
+                }
+            })
+            .catch(error => console.error('Erro na atualização:', error));
+    }
+}
+/*
+    function atualizarQuantidade(itemId, delta) {
+        // Localiza a linha do item pelo atributo `data-id`
+        const itemRow = document.querySelector(`tr[data-id="${itemId}"]`);
+
+        if (itemRow) {
+            // Localiza o elemento da quantidade dentro da linha
+            const quantidadeSpan = itemRow.querySelector(".quantidade");
+            let quantidadeAtual = parseInt(quantidadeSpan.textContent, 10);
+
+            // Atualiza a quantidade (impede números negativos)
+            const novaQuantidade = Math.max(0, quantidadeAtual + delta);
+            quantidadeSpan.textContent = novaQuantidade;
+
+            // Atualiza o total correspondente
+            const precoUnitario = parseFloat(itemRow.querySelector("td:nth-child(2)").textContent.replace("R$", "").trim());
+            const totalCell = itemRow.querySelector(".total");
+            totalCell.textContent = `R$ ${(precoUnitario * novaQuantidade).toFixed(2)}`;
+
+            atualizarTotalCompra();
+        }
+    }*/
+
+    function removerItem(itemId) {
+        // Localiza a linha do item pelo atributo `data-id`
+        const itemRow = document.querySelector(`tr[data-id="${itemId}"]`);
+
+        if (itemRow) {
+            // Remove a linha da tabela
+            itemRow.remove();
+        }
+
+        atualizarTotalCompra();
+    }
+
+    document.getElementById('finalizar-compra').addEventListener('click', () => {
+        fetch('@Url.Action("FinalizarCompra", "Carrinho")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // Token CSRF, se necessário
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Compra finalizada com sucesso!');
+                } else {
+                    alert('Erro ao finalizar a compra.');
+                }
+            })
+            .catch(error => console.error('Erro ao finalizar compra:', error));
+    });
+    document.addEventListener('DOMContentLoaded', atualizarTotalCompra);
+
+</script>
+

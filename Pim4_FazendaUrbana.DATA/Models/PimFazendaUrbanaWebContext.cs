@@ -29,12 +29,21 @@ public partial class PimFazendaUrbanaWebContext : DbContext
 
     public virtual DbSet<TelefoneFuncionario> TelefoneFuncionario { get; set; }
 
+    public virtual DbSet<Pedido> Pedido { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-P8QSFMT\\SQLEXPRESS;Initial Catalog=PimFazendaUrbanaWeb;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Funcionario>(entity =>
+        {
+            entity.Property(e => e.Perfil)
+                .HasConversion<int>()
+                .IsRequired();
+        });
+
         modelBuilder.Entity<Fornecedor>(entity =>
         {
             entity.Property(e => e.Cnpj).IsFixedLength();
@@ -51,7 +60,7 @@ public partial class PimFazendaUrbanaWebContext : DbContext
             entity.Property(e => e.Nome).IsFixedLength();
             entity.Property(e => e.Senha).IsFixedLength();
             entity.Property(e => e.Usuario).IsFixedLength();
-            entity.Property(e => e.Perfil).IsFixedLength();
+            entity.Property(e => e.Perfil).IsRequired();
         });
 
         modelBuilder.Entity<Plantacao>(entity =>
@@ -83,6 +92,23 @@ public partial class PimFazendaUrbanaWebContext : DbContext
             entity.HasOne(d => d.IdFuncionarioNavigation).WithMany(p => p.TelefoneFuncionario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Telefone_Funcionario_Funcionario");
+        });
+
+        modelBuilder.Entity<ItemPedido>(entity =>
+        {
+            // Configura o relacionamento com Pedido
+            entity.HasOne(d => d.Pedido) // Propriedade de navegação no ItemPedido
+                .WithMany(p => p.Itens)  // Propriedade de navegação no Pedido
+                .HasForeignKey(d => d.IdPedido) // Chave estrangeira em ItemPedido
+                .OnDelete(DeleteBehavior.ClientSetNull) // Define o comportamento de deleção
+                .HasConstraintName("FK_ItemPedido_Pedido"); // Nome da restrição
+
+            // Configura o relacionamento com Produto
+            entity.HasOne(d => d.Produto) // Propriedade de navegação no ItemPedido
+                .WithMany()              // Produto não tem uma coleção de ItemPedido
+                .HasForeignKey(d => d.IdProduto) // Chave estrangeira em ItemPedido
+                .OnDelete(DeleteBehavior.Cascade) // Define o comportamento de deleção
+                .HasConstraintName("FK_ItemPedido_Produto"); // Nome da restrição
         });
 
         OnModelCreatingPartial(modelBuilder);

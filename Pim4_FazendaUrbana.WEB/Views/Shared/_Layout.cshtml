@@ -15,7 +15,13 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 @await Component.InvokeAsync("Menu")
-                </div>
+                <a asp-controller="Carrinho" asp-action="Compras" onclick="enviarCarrinhoParaServidor(event)">
+
+                    <div id="carrinho-container" class="cart-container">
+                        <i class="fas fa-shopping-cart cart-icon"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                </a>
             </div>
         </nav>
     </header>
@@ -31,3 +37,5 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+

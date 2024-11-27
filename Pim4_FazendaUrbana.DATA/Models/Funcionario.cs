@@ -54,6 +54,7 @@ public partial class Funcionario
     [Column("salario", TypeName = "decimal(10, 2)")]
     public decimal Salario { get; set; }
 
+    [Required(ErrorMessage = "O perfil é obrigatório.")]
     public PerfilEnum Perfil { get; set; }
 
     [InverseProperty("IdFuncionarioNavigation")]

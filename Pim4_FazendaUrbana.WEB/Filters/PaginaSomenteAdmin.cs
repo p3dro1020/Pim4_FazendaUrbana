@@ -24,7 +24,7 @@ namespace Pim4_FazendaUrbana.WEB.Filters
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
                 }
 
-                if (usuario.Perfil != Enums.PerfilEnum.Admin || usuario.Perfil != Enums.PerfilEnum.Admin)
+                if (usuario.Perfil == Enums.PerfilEnum.Funcionario)
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Restrito" }, { "action", "Index" } });
                 }

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Pim4_FazendaUrbana.DATA.Models.Pedido>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Quantidade de Itens</th>
+            <th>Valor Total</th>
+            <th>Data da Compra</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pedido in Model)
+        {
+            <tr data-id="@pedido.IdPedido" class="pedido-row">
+                <td>@pedido.IdPedido</td>
+                <td>@pedido.QtdItem</td>
+                <td>@pedido.ValorTotal.ToString("C")</td>
+                <td>@pedido.DataCompra.ToString("dd/MM/yyyy")</td>
+                <td><button class="btn btn-info ver-detalhes">Ver Detalhes</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="detalhes-container"></div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".ver-detalhes").forEach(button => {
+            button.addEventListener("click", async (e) => {
+                const idPedido = e.target.closest("tr").dataset.id;
+                const detalhesContainer = document.getElementById("detalhes-container");
+
+                const response = await fetch(`/Pedido/Detalhes/${idPedido}`);
+                const html = await response.text();
+
+                detalhesContainer.innerHTML = html;
+            });
+        });
+    });
+
+</script>

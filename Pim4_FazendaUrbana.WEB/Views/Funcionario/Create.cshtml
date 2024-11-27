@@ -1,4 +1,5 @@
 ﻿@model Pim4_FazendaUrbana.DATA.Models.Funcionario
+@using Microsoft.AspNetCore.Mvc.Rendering
 
 @{
     ViewData["Title"] = "Create";
@@ -70,12 +71,24 @@
             <div class="card">
                 <div class="card-header">Informações sistema</div>
                 <div class="card-body ">
-                    <div class="form-group">
-                        <label asp-for="Cargo" class="control-label"></label>
-                        <input asp-for="Cargo" class="form-control" />
-                        <span asp-validation-for="Cargo" class="text-danger"></span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Cargo" class="control-label"></label>
+                                <input asp-for="Cargo" class="form-control" />
+                                <span asp-validation-for="Cargo" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Perfil" class="control-label"></label>
+                                <select asp-for="Perfil" class="form-control" asp-items="ViewBag.Perfis">
+                                    <option value="">Selecione um perfil</option> <!-- Placeholder -->
+                                </select>
+                                <span asp-validation-for="Perfil" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -90,6 +103,7 @@
                                 <input asp-for="Salario" class="form-control" />
                                 <span asp-validation-for="Salario" class="text-danger"></span>
                             </div>
+                            
                         </div>
                     </div>
                 </div>

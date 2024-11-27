@@ -4,6 +4,7 @@ using Pim4_FazendaUrbana.DATA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,6 +66,18 @@ namespace Pim4_FazendaUrbana.DATA.Repositories
             return objeto;
         }
 
+        public IQueryable<T> Query(params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _Context.Set<T>();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return query;
+        }
+
         public void SaveChanges()
         {
             _Context.SaveChanges();
@@ -79,5 +92,8 @@ namespace Pim4_FazendaUrbana.DATA.Repositories
         {
             return _Context.Set<T>().ToList();
         }
+
+
+
     }
 }

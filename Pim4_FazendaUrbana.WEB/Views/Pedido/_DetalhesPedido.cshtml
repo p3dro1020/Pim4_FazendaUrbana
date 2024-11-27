@@ -1,0 +1,24 @@
+﻿@model Pim4_FazendaUrbana.DATA.Models.Pedido
+
+<h3>Detalhes do Pedido #@Model.IdPedido</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Item</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Valor Unitário</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Itens)
+        {
+            <tr>
+                <td>@item.IdItemPedido</td>
+                <td>@item.Produto</td>
+                <td>@item.Quantidade</td>
+                <td>@item.ValorUn.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
