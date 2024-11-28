@@ -31,7 +31,7 @@
                             <tr data-id="@item.Id">
                                 <td>
                                     <div class="product">
-                                        <img src="~/lib/images/alface-lisa.png" alt="@item.Nome">
+                                        <img src="~/lib/images/generic-product2.png" alt="@item.Nome">
                                         <div class="info">
                                             <div class="name">@item.Nome</div>
                                         </div>
@@ -101,18 +101,15 @@
         const quantidadeSpan = itemRow.querySelector(".quantidade");
         let quantidadeAtual = parseInt(quantidadeSpan.textContent, 10);
 
-        // Calcular a nova quantidade
         const novaQuantidade = Math.max(0, quantidadeAtual + delta);
         quantidadeSpan.textContent = novaQuantidade;
 
-        // Atualizar o total correspondente
         const precoUnitario = parseFloat(itemRow.querySelector("td:nth-child(2)").textContent.replace("R$", "").trim());
         const totalCell = itemRow.querySelector(".total");
         totalCell.textContent = `R$ ${(precoUnitario * novaQuantidade).toFixed(2)}`;
 
         atualizarTotalCompra();
 
-        // Enviar a atualização para o servidor
         fetch('@Url.Action("AtualizarQuantidade", "Carrinho")', {
             method: 'POST',
             headers: {
@@ -120,8 +117,8 @@
                 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
             },
             body: JSON.stringify({
-                productId: parseInt(itemId), // Garantir que o ID seja um número
-                quantity: novaQuantidade    // Enviar a nova quantidade
+                productId: parseInt(itemId), 
+                quantity: novaQuantidade    
             })
         })
             .then(response => {
@@ -130,6 +127,7 @@
                 }
             })
             .catch(error => console.error('Erro na atualização:', error));
+
     }
 }
 /*
@@ -153,6 +151,18 @@
 
             atualizarTotalCompra();
         }
+
+            function removerItem(itemId) {
+            // Localiza a linha do item pelo atributo `data-id`
+            const itemRow = document.querySelector(`tr[data-id="${itemId}"]`);
+
+            if (itemRow) {
+                // Remove a linha da tabela
+                itemRow.remove();
+            }
+
+            atualizarTotalCompra();
+        }   
     }*/
 
     function removerItem(itemId) {
@@ -164,8 +174,29 @@
             itemRow.remove();
         }
 
+        // Atualiza o total do carrinho
         atualizarTotalCompra();
+
+        // Faz uma requisição ao servidor para remover o item
+        fetch('@Url.Action("RemoveFromCart", "Carrinho")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // CSRF Token
+            },
+            body: JSON.stringify(parseInt(itemId))
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert('Erro ao remover o item do carrinho.');
+                }
+            })
+            .catch(error => console.error('Erro ao remover item:', error));
     }
+
+
+    
 
     document.getElementById('finalizar-compra').addEventListener('click', () => {
         fetch('@Url.Action("FinalizarCompra", "Carrinho")', {

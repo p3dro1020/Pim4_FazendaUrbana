@@ -14,5 +14,12 @@ namespace Pim4_FazendaUrbana.DATA.Repositories
         {
 
         }
+
+        public override List<ItemPedido> SelecionarTodos()
+        {
+            // Inclui o relacionamento com Produto
+            return Query(i => i.Produto).ToList();
+        }
+
     }
 }

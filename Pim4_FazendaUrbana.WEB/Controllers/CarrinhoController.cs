@@ -59,6 +59,42 @@ namespace Pim4_FazendaUrbana.WEB.Controllers
             return Json(new { success = true });
         }
 
+        [HttpPost]
+        public IActionResult RemoveFromCart([FromBody] int productId)
+        {
+            try
+            {
+                // Recupera a lista de itens do carrinho da sessão
+                var cartSession = HttpContext.Session.GetString("cart");
+                if (string.IsNullOrEmpty(cartSession))
+                {
+                    return Json(new { success = false, message = "O carrinho está vazio." });
+                }
+
+                // Deserializa a lista existente do carrinho
+                var cartItems = JsonConvert.DeserializeObject<List<CartItem>>(cartSession);
+
+                // Procura o item com o ID especificado
+                var itemToRemove = cartItems.FirstOrDefault(item => item.Id == productId);
+                if (itemToRemove == null)
+                {
+                    return Json(new { success = false, message = "Item não encontrado no carrinho." });
+                }
+
+                // Remove o item da lista
+                cartItems.Remove(itemToRemove);
+
+                // Atualiza o carrinho na sessão
+                HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cartItems));
+
+                return Json(new { success = true, message = "Item removido com sucesso." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Erro ao remover item: {ex.Message}" });
+            }
+        }
+
         public IActionResult Compras()
         {
             List<CartItem> _listCartItem = new List<CartItem>();
@@ -109,7 +145,6 @@ namespace Pim4_FazendaUrbana.WEB.Controllers
                         IdPedido = pedidoCriado.IdPedido,
                         IdProduto = item.Id, // Relacionado ao ID do produto
                         Quantidade = item.Quantidade,
-                        
                         ValorUn = item.Preco // Preço unitário do produto
                     };
                     _itemPedidoService._repositoryItemPedido.Incluir(novoItemPedido);
@@ -117,8 +152,8 @@ namespace Pim4_FazendaUrbana.WEB.Controllers
 
                 // Limpa o carrinho na sessão
                 HttpContext.Session.Remove("cart");
-
-                return Ok(new { mensagem = "Compra finalizada com sucesso!", pedidoId = pedidoCriado.IdPedido });
+                return RedirectToAction("Index", "Carrinho");
+                //return Ok(new { mensagem = "Compra finalizada com sucesso!", pedidoId = pedidoCriado.IdPedido });
             }
             catch (Exception ex)
             {

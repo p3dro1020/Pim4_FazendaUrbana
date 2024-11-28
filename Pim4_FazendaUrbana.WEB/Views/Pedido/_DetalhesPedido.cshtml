@@ -15,9 +15,9 @@
         {
             <tr>
                 <td>@item.IdItemPedido</td>
-                <td>@item.Produto</td>
+                <td>@item.Produto.Nome</td>
                 <td>@item.Quantidade</td>
-                <td>@item.ValorUn.ToString("C")</td>
+                <td>@item.ValorUn.ToString("C2", new System.Globalization.CultureInfo("pt-BR"))</td>
             </tr>
         }
     </tbody>

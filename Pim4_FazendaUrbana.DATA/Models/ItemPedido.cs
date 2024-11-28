@@ -28,10 +28,10 @@ namespace Pim4_FazendaUrbana.DATA.Models
 
         [ForeignKey("IdPedido")]
         [InverseProperty("Itens")]
-        public virtual Pedido Pedido { get; set; }
+        public Pedido Pedido { get; set; }
 
         [ForeignKey("IdProduto")]
-        public virtual Produto Produto { get; set; }
+        public Produto Produto { get; set; }
 
     }
 }

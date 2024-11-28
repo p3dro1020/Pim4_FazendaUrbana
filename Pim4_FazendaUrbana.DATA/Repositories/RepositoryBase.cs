@@ -88,7 +88,7 @@ namespace Pim4_FazendaUrbana.DATA.Repositories
             return _Context.Set<T>().Find(variavel);
         }
 
-        public List<T> SelecionarTodos()
+        public virtual List<T> SelecionarTodos()
         {
             return _Context.Set<T>().ToList();
         }

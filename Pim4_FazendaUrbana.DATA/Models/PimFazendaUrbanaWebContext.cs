@@ -100,7 +100,7 @@ public partial class PimFazendaUrbanaWebContext : DbContext
             entity.HasOne(d => d.Pedido) // Propriedade de navegação no ItemPedido
                 .WithMany(p => p.Itens)  // Propriedade de navegação no Pedido
                 .HasForeignKey(d => d.IdPedido) // Chave estrangeira em ItemPedido
-                .OnDelete(DeleteBehavior.ClientSetNull) // Define o comportamento de deleção
+                .OnDelete(DeleteBehavior.Cascade) // Define o comportamento de deleção
                 .HasConstraintName("FK_ItemPedido_Pedido"); // Nome da restrição
 
             // Configura o relacionamento com Produto

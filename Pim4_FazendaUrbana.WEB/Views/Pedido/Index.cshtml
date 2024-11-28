@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<Pim4_FazendaUrbana.DATA.Models.Pedido>
 
+
+
 <table class="table">
     <thead>
         <tr>
@@ -16,28 +18,53 @@
             <tr data-id="@pedido.IdPedido" class="pedido-row">
                 <td>@pedido.IdPedido</td>
                 <td>@pedido.QtdItem</td>
-                <td>@pedido.ValorTotal.ToString("C")</td>
-                <td>@pedido.DataCompra.ToString("dd/MM/yyyy")</td>
+                <td>@pedido.ValorTotal.ToString("C2", new System.Globalization.CultureInfo("pt-BR"))</td>
+                <td>@pedido.DataCompra.ToString("dd/MM/yyyy HH:mm:ss")</td>
                 <td><button class="btn btn-info ver-detalhes">Ver Detalhes</button></td>
             </tr>
         }
     </tbody>
 </table>
 
-<div id="detalhes-container"></div>
+<!-- Modal -->
+<div class="modal fade" id="detalhesModal" tabindex="-1" role="dialog" aria-labelledby="detalhesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detalhesModalLabel">Detalhes do Pedido</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="detalhes-container">
+                <!-- Detalhes do Pedido serão carregados aqui -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".ver-detalhes").forEach(button => {
-            button.addEventListener("click", async (e) => {
-                const idPedido = e.target.closest("tr").dataset.id;
-                const detalhesContainer = document.getElementById("detalhes-container");
+        $('.ver-detalhes').on('click', async (e) => {
+            const idPedido = $(e.target).closest("tr").data('id');
+            const detalhesContainer = $('#detalhes-container');
 
-                const response = await fetch(`/Pedido/Detalhes/${idPedido}`);
-                const html = await response.text();
+            // Fazendo o pedido para pegar os detalhes do pedido
+            const response = await fetch(`/Pedido/Detalhes/${idPedido}`);
+            const html = await response.text();
 
-                detalhesContainer.innerHTML = html;
-            });
+            // Preenche o modal com os detalhes do pedido
+            detalhesContainer.html(html);
+
+            // Exibe o modal
+            $('#detalhesModal').modal('show');
         });
     });
+    
+    
 
 </script>

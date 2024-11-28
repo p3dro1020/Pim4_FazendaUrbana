@@ -29,6 +29,7 @@ namespace Pim4_FazendaUrbana.WEB.Controllers
         public IActionResult Sair()
         {
             _sessao.RemoverSessaoDoUsuario();
+            HttpContext.Session.Remove("cart");
             return RedirectToAction("Index", "Login");
         }
 

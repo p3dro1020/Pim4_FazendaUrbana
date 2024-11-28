@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pim4_FazendaUrbana.DATA.Interfaces;
 using Pim4_FazendaUrbana.DATA.Repositories;
+using Pim4_FazendaUrbana.WEB.Filters;
 
 namespace Pim4_FazendaUrbana.WEB.Controllers
 {
+    [PaginaSomenteAdmin]
     public class PedidoController : Controller
     {
         private readonly IRepositoryPedido _pedidoRepository;
         private readonly IRepositoryItemPedido _itemPedidoRepository;
-
+        private readonly IRepositoryProduto _produtoRepository;
         public PedidoController(IRepositoryPedido pedidoRepository, IRepositoryItemPedido itemPedidoRepository)
         {
             _pedidoRepository = pedidoRepository;
@@ -32,11 +34,10 @@ namespace Pim4_FazendaUrbana.WEB.Controllers
                 return NotFound();
             }
 
-            // Obtém os itens relacionados manualmente (já que RepositoryBase não suporta Include diretamente)
             pedido.Itens = _itemPedidoRepository
-                .SelecionarTodos()
-                .Where(i => i.IdPedido == id)
-                .ToList();
+            .SelecionarTodos()
+            .Where(i => i.IdPedido == id)
+            .ToList();
 
             return PartialView("_DetalhesPedido", pedido);
         }
